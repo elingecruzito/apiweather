@@ -2,7 +2,6 @@ package com.example.prueba.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
@@ -11,12 +10,10 @@ import com.example.prueba.domain.model.WatherUiState
 import com.example.prueba.databinding.ActivityMainBinding
 import com.example.prueba.di.WatherModule
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -80,7 +77,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         autoCompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener{
             override fun onError(status: Status) {
                 Toast.makeText(applicationContext, status.statusMessage, Toast.LENGTH_LONG).show()
-                Log.e("-----------------Places-----------------", status.toString())
             }
 
             override fun onPlaceSelected(place: Place) {
@@ -94,6 +90,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     1000,
                     null
                 )
+
+                watherViewModel.getCurrentWather(place.address.toString(), place.latLng)
             }
 
         })

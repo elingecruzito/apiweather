@@ -1,11 +1,19 @@
 package com.example.prueba.data
 
-import com.example.prueba.domain.model.WatherModel
+import com.example.prueba.domain.model.CurrentWather
 import com.example.prueba.domain.repository.WhaterRepository
+import com.example.prueba.network.ApiClient
+import com.google.android.gms.maps.model.LatLng
 
 object WatherRespositoryImp : WhaterRepository {
-    override suspend fun getWhater(): WhaterResponse<WatherModel> {
-        //return WhaterResponse.Successful(WatherModel(1L))
-        return WhaterResponse.Failed("No se encontro ningun dato!")
+
+    private var API_KEY = "c8883f08f1a461ec7702419a780ec469"
+
+    override suspend fun getCurrentWhater(
+        adddress: String?,
+        latLng: LatLng?
+    ): WatherResponse<CurrentWather> {
+        val call = ApiClient.apiService.getCurrentWather(latLng!!.latitude, latLng!!.longitude, API_KEY)
+        return WatherResponse.Successful(call)
     }
 }

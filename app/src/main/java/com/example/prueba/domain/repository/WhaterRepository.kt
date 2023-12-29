@@ -1,10 +1,11 @@
 package com.example.prueba.domain.repository
 
-import com.example.prueba.data.WhaterResponse
-import com.example.prueba.domain.model.WatherModel
+import com.example.prueba.data.WatherResponse
+import com.example.prueba.domain.model.CurrentWather
+import com.google.android.gms.maps.model.LatLng
 
 interface WhaterRepository {
 
-    suspend fun getWhater() : WhaterResponse<WatherModel>
+    suspend fun getCurrentWhater(adddress: String?, latLng: LatLng?) : WatherResponse<CurrentWather>
 
 }

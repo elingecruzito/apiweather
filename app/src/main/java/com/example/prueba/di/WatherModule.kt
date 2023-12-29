@@ -1,6 +1,6 @@
 package com.example.prueba.di
 
-import com.example.prueba.domain.usecase.GetWatherUseCase
+import com.example.prueba.domain.usecase.GetCurrentWatherUseCase
 import com.example.prueba.domain.repository.WhaterRepository
 import com.example.prueba.data.WatherRespositoryImp
 
@@ -10,7 +10,7 @@ object WatherModule {
         providerGetWatherUseCase()
     )
 
-    private fun providerGetWatherUseCase() = GetWatherUseCase(
+    private fun providerGetWatherUseCase() = GetCurrentWatherUseCase(
         providerWatherRepository()
     )
 
