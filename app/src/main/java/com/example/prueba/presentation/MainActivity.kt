@@ -18,10 +18,8 @@ class MainActivity : AppCompatActivity() {
     private val watherViewObserver = Observer<WatherUiState> { uiState ->
         when(uiState){
             is WatherUiState.Success -> {
-                binding.lblInitial.text = "Resultado exitoso ${uiState.data.id}!"
             }
             is WatherUiState.Fail -> {
-                binding.lblInitial.text = "Fallo la aplicacion: ${uiState.errorMessage}"
             }
         }
     }

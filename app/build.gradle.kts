@@ -54,4 +54,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+    //Google Maps
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 }
