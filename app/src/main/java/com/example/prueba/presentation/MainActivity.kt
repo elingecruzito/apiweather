@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -34,8 +35,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private val watherViewObserver = Observer<WatherUiState> { uiState ->
         when(uiState){
             is WatherUiState.Success -> {
+                mMap.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(uiState.data.coord.lat, uiState.data.coord.lon),
+                        18f),
+                    1000,
+                    null
+                )
             }
             is WatherUiState.Fail -> {
+                Toast.makeText(applicationContext, uiState.errorMessage, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -49,7 +58,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     fun init(){
         watherViewModel.uiState.observe(this, watherViewObserver)
         //watherViewModel.getWather()
-
         initPlacesClinet()
         createMapFragment()
         placesClientSelected()
@@ -85,11 +93,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 mMap.clear()
                 mMap.addMarker(MarkerOptions().position(place.latLng).title(place.address))
-                mMap.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(place.latLng, 18f),
-                    1000,
-                    null
-                )
 
                 watherViewModel.getCurrentWather(place.address.toString(), place.latLng)
             }

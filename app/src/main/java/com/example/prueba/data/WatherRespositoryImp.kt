@@ -13,7 +13,12 @@ object WatherRespositoryImp : WhaterRepository {
         adddress: String?,
         latLng: LatLng?
     ): WatherResponse<CurrentWather> {
-        val call = ApiClient.apiService.getCurrentWather(latLng!!.latitude, latLng!!.longitude, API_KEY)
-        return WatherResponse.Successful(call)
+        try {
+            val call = ApiClient.apiService.getCurrentWather(latLng!!.latitude, latLng!!.longitude, API_KEY)
+            return WatherResponse.Successful(call)
+        }catch (ex : Exception){
+            return WatherResponse.Failed(ex.message.toString())
+        }
+
     }
 }
