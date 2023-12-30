@@ -1,7 +1,5 @@
 package com.example.prueba.domain.model
 
-import com.google.gson.annotations.SerializedName
-
 data class CurrentWatherModel (
     val coord: CoordModel,
     val main: MainModel,

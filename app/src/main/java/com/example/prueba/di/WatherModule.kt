@@ -5,13 +5,15 @@ import com.example.prueba.domain.usecase.GetCurrentWatherUseCase
 import com.example.prueba.domain.repository.WhaterRepository
 import com.example.prueba.data.WatherRespositoryImp
 import com.example.prueba.domain.repository.CurrentWatherRepository
+import com.example.prueba.domain.usecase.GetLocalCurrentWatherUseCase
 import com.example.prueba.domain.usecase.InsertCurrentWatherUseCase
 
 object WatherModule {
 
     fun provideWatheViewModelFactory() = WatherViewModelFactory(
         providerGetWatherUseCase(),
-        providerInsertCurrentWather()
+        providerInsertCurrentWather(),
+        providerGetLocalAllCurrentWather()
     )
 
     private fun providerGetWatherUseCase() = GetCurrentWatherUseCase(
@@ -26,8 +28,15 @@ object WatherModule {
         providerCurrentRepository()
     )
 
+    private fun providerGetLocalAllCurrentWather() = GetLocalCurrentWatherUseCase(
+        providerCurrentRepository()
+    )
+
     private fun providerCurrentRepository() : CurrentWatherRepository {
         return CurrentWatherRepositoryDatabaseImp()
     }
+
+
+
 
 }

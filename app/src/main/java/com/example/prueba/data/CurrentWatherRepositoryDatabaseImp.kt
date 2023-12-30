@@ -29,4 +29,16 @@ class CurrentWatherRepositoryDatabaseImp : CurrentWatherRepository {
         db!!.close()
     }
 
+    override fun getAllCurrentWather(context: Context) : LocalWatherResponse<List<WatherEntity>> {
+        getDataBase(context)
+        val listCurrentWather : List<WatherEntity> = db!!.watherDao().getAllCurrentWather()
+        db!!.close()
+
+        return if(listCurrentWather.isEmpty()){
+            LocalWatherResponse.Failed("Lista Vacia!")
+        }else{
+            LocalWatherResponse.Successful(listCurrentWather)
+        }
+    }
+
 }
