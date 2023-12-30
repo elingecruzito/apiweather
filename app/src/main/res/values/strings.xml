@@ -3,4 +3,10 @@
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAf5Ajdfs1kJgsvVJGNjDvQr9srIcpxvk4</string>
     <string name="lbl_hint_search_location">Buscar....</string>
 
+    <string name="lbl_temperatura">Temperatura: </string>
+    <string name="lbl_sensacion">Sensación: </string>
+    <string name="lbl_temp_max">Temperatura maxima: </string>
+    <string name="lbl_temp_min">Temperatura minima: </string>
+    <string name="lbl_presion">Precion: </string>
+    <string name="lbl_humedad">Humedad: </string>
 </resources>

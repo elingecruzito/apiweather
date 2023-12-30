@@ -2,9 +2,11 @@ package com.example.prueba.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.transition.Visibility
 import com.example.prueba.R
 import com.example.prueba.domain.model.WatherUiState
 import com.example.prueba.databinding.ActivityMainBinding
@@ -35,31 +37,30 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private val watherViewObserver = Observer<WatherUiState> { uiState ->
         when(uiState){
             is WatherUiState.Success -> {
-                mMap.addMarker(
-                    MarkerOptions()
-                        .position(
-                            LatLng(
-                                uiState.data.coord.lat,
-                                uiState.data.coord.lon
-                            )
-                        )
-                        .snippet(
-                            "Temperatura: ${ uiState.data.main.temp } \n " +
-                            "Sensacion: ${ uiState.data.main.feelsLike } \n " +
-                            "Temperatura Maxima: ${uiState.data.main.tempMax} \n " +
-                            "Temperatura Minima: ${uiState.data.main.tempMin} \n " +
-                            "Presion: ${uiState.data.main.pressure} \n " +
-                            "Humedad: ${uiState.data.main.humidity} \n"
-                        )
-                        .title(uiState.data.address)
-                )
-                mMap.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(uiState.data.coord.lat, uiState.data.coord.lon),
-                        18f),
-                    1000,
-                    null
-                )
+                uiState.data.run {
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(LatLng(coord.lat, coord.lon))
+                            .title(address)
+                    )
+                    mMap.animateCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            LatLng(coord.lat, coord.lon),
+                            18f),
+                        1000,
+                        null
+                    )
+
+                    binding.run {
+                        txtTemperature.text = main.temp.toString()
+                        txtSensasion.text = main.feelsLike.toString()
+                        txtMaxTemp.text = main.tempMax.toString()
+                        txtMinTemp.text = main.tempMin.toString()
+                        txtPresion.text = main.pressure.toString()
+                        txtHumedad.text = main.humidity.toString()
+                        clDataWather.visibility = View.VISIBLE
+                    }
+                }
             }
             is WatherUiState.Fail -> {
                 Toast.makeText(applicationContext, uiState.errorMessage, Toast.LENGTH_LONG).show()
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     fun init(){
         watherViewModel.uiState.observe(this, watherViewObserver)
-        //watherViewModel.getWather()
+        binding.clDataWather.visibility = View.GONE
         initPlacesClinet()
         createMapFragment()
         placesClientSelected()
@@ -106,9 +107,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             override fun onPlaceSelected(place: Place) {
-                //val address = place.address.toString()
-                //val latlong = "${place.latLng.latitude}::${place.latLng.longitude}"
                 mMap.clear()
+                binding.clDataWather.visibility = View.GONE
                 watherViewModel.getCurrentWather(place.address.toString(), place.latLng, applicationContext)
             }
 
