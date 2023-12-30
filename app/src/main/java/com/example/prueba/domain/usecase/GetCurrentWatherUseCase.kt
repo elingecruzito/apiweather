@@ -15,7 +15,6 @@ class GetCurrentWatherUseCase(private val respository : WhaterRepository) {
     }
 
 }
-
 sealed class GetWatherResult{
     data class Success(val data : CurrentWather) : GetWatherResult()
     data class Fail(val messageError : String) : GetWatherResult()

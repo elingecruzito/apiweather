@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private val watherViewObserver = Observer<WatherUiState> { uiState ->
         when(uiState){
             is WatherUiState.Success -> {
+                mMap.addMarker(MarkerOptions().position(LatLng(uiState.data.coord.lat, uiState.data.coord.lon)).title(uiState.data.address))
                 mMap.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
                         LatLng(uiState.data.coord.lat, uiState.data.coord.lon),
@@ -90,11 +91,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             override fun onPlaceSelected(place: Place) {
                 //val address = place.address.toString()
                 //val latlong = "${place.latLng.latitude}::${place.latLng.longitude}"
-
                 mMap.clear()
-                mMap.addMarker(MarkerOptions().position(place.latLng).title(place.address))
-
-                watherViewModel.getCurrentWather(place.address.toString(), place.latLng)
+                watherViewModel.getCurrentWather(place.address.toString(), place.latLng, applicationContext)
             }
 
         })
