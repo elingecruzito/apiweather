@@ -35,7 +35,24 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private val watherViewObserver = Observer<WatherUiState> { uiState ->
         when(uiState){
             is WatherUiState.Success -> {
-                mMap.addMarker(MarkerOptions().position(LatLng(uiState.data.coord.lat, uiState.data.coord.lon)).title(uiState.data.address))
+                mMap.addMarker(
+                    MarkerOptions()
+                        .position(
+                            LatLng(
+                                uiState.data.coord.lat,
+                                uiState.data.coord.lon
+                            )
+                        )
+                        .snippet(
+                            "Temperatura: ${ uiState.data.main.temp } \n " +
+                            "Sensacion: ${ uiState.data.main.feelsLike } \n " +
+                            "Temperatura Maxima: ${uiState.data.main.tempMax} \n " +
+                            "Temperatura Minima: ${uiState.data.main.tempMin} \n " +
+                            "Presion: ${uiState.data.main.pressure} \n " +
+                            "Humedad: ${uiState.data.main.humidity} \n"
+                        )
+                        .title(uiState.data.address)
+                )
                 mMap.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
                         LatLng(uiState.data.coord.lat, uiState.data.coord.lon),
